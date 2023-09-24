@@ -35,7 +35,10 @@ class _SuraDetailsState extends State<SuraDetails> {
           ),
         ),
         body: verses.length == 0
-            ? Center(child: CircularProgressIndicator())
+            ? Center(
+                child: CircularProgressIndicator(
+                color: Theme.of(context).primaryColor,
+              ))
             : Container(
                 padding: EdgeInsets.all(10),
                 margin: EdgeInsets.symmetric(
