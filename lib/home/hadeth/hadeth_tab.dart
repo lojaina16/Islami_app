@@ -5,6 +5,8 @@ class HadethTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(color: Colors.deepPurple);
+    return Column(
+      children: [Image.asset("assets/images/ahadeth_image.png")],
+    );
   }
 }

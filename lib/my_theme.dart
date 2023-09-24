@@ -11,14 +11,14 @@ class MyTheme {
       centerTitle: true,
       backgroundColor: Colors.transparent,
       elevation: 0,
-    ),
+      iconTheme: IconThemeData(color: Colors.black)),
     textTheme: TextTheme(
       titleLarge: TextStyle(
         fontSize: 30,
         fontWeight: FontWeight.bold,
       ),
       titleMedium: TextStyle(fontSize: 25, fontWeight: FontWeight.w400),
-      titleSmall: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+      titleSmall: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
     ),
     bottomNavigationBarTheme: BottomNavigationBarThemeData(
       backgroundColor: primaryLight,
