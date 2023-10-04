@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:islami/my_theme.dart';
+import 'package:islami/providers/app_config_provider.dart';
+import 'package:provider/provider.dart';
 
 class SuraDetails extends StatefulWidget {
   SuraDetails({super.key});
@@ -16,17 +18,25 @@ class _SuraDetailsState extends State<SuraDetails> {
 
   @override
   Widget build(BuildContext context) {
+    var provider = Provider.of<AppConfigProvider>(context);
     var args = ModalRoute.of(context)?.settings.arguments as SuraDetailsArgs;
     if (verses.isEmpty) {
       loadFiles(args.index);
     }
     return Stack(children: [
-      Image.asset(
-        "assets/images/background.png",
-        width: double.infinity,
-        height: double.infinity,
-        fit: BoxFit.fill,
-      ),
+      provider.isDarkMode()
+          ? Image.asset(
+              "assets/images/bg.png",
+              width: double.infinity,
+              height: double.infinity,
+              fit: BoxFit.fill,
+            )
+          : Image.asset(
+              "assets/images/background.png",
+              width: double.infinity,
+              height: double.infinity,
+              fit: BoxFit.fill,
+            ),
       Scaffold(
         appBar: AppBar(
           title: Text(
@@ -36,31 +46,33 @@ class _SuraDetailsState extends State<SuraDetails> {
         ),
         body: verses.length == 0
             ? Center(
-                child: CircularProgressIndicator(
-                color: Theme.of(context).primaryColor,
-              ))
+            child: CircularProgressIndicator(
+              color: Theme.of(context).primaryColor,
+            ))
             : Container(
-                padding: EdgeInsets.all(10),
-                margin: EdgeInsets.symmetric(
-                  vertical: MediaQuery.of(context).size.height * 0.05,
-                  horizontal: MediaQuery.of(context).size.width * 0.04,
-                ),
-                decoration: BoxDecoration(
-                  color: MyTheme.whiteColor,
+          padding: EdgeInsets.all(10),
+          margin: EdgeInsets.symmetric(
+            vertical: MediaQuery.of(context).size.height * 0.05,
+            horizontal: MediaQuery.of(context).size.width * 0.04,
+          ),
+          decoration: BoxDecoration(
+                  color: provider.isDarkMode()
+                      ? MyTheme.primaryDark
+                      : MyTheme.whiteColor,
                   borderRadius: BorderRadius.circular(24),
                 ),
-                child: ListView.builder(
-                  itemBuilder: (context, index) {
-                    return Text(
-                      "${verses[index]}{${index + 1}}",
-                      style: Theme.of(context).textTheme.titleSmall,
-                      textAlign: TextAlign.center,
-                      textDirection: TextDirection.rtl,
-                    );
-                  },
-                  itemCount: verses.length,
-                ),
-              ),
+          child: ListView.builder(
+            itemBuilder: (context, index) {
+              return Text(
+                "${verses[index]}{${index + 1}}",
+                style: Theme.of(context).textTheme.titleSmall,
+                textAlign: TextAlign.center,
+                textDirection: TextDirection.rtl,
+              );
+            },
+            itemCount: verses.length,
+          ),
+        ),
       ),
     ]);
   }

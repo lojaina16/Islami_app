@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:islami/home/hadeth/hadeth_details_screen.dart';
+import 'package:islami/my_theme.dart';
+import 'package:islami/providers/app_config_provider.dart';
+import 'package:provider/provider.dart';
 
 class HadethTab extends StatefulWidget {
   HadethTab({super.key});
@@ -14,6 +18,7 @@ class _HadethTabState extends State<HadethTab> {
 
   @override
   Widget build(BuildContext context) {
+    var provider = Provider.of<AppConfigProvider>(context);
     if (hadethList.isEmpty) {
       hadethLoadFile();
     }
@@ -21,42 +26,52 @@ class _HadethTabState extends State<HadethTab> {
       children: [
         Center(child: Image.asset("assets/images/ahadeth_image.png")),
         Divider(
-          color: Theme.of(context).primaryColor,
+          color: provider.isDarkMode()
+              ? MyTheme.yellowColor
+              : Theme.of(context).primaryColor,
           thickness: 2,
         ),
         Text(
-          "Ahadeth",
+          AppLocalizations.of(context)!.ahadeth,
           style: Theme.of(context).textTheme.titleMedium,
         ),
         Divider(
-          color: Theme.of(context).primaryColor,
+          color: provider.isDarkMode()
+              ? MyTheme.yellowColor
+              : Theme.of(context).primaryColor,
           thickness: 2,
         ),
         hadethList.isEmpty
             ? Center(
-                child: CircularProgressIndicator(
-                color: Theme.of(context).primaryColor,
-              ))
+            child: CircularProgressIndicator(
+              color: Theme.of(context).primaryColor,
+            ))
             : Expanded(
-                child: ListView.separated(
-                    itemBuilder: (context, index) {
-                      return Center(
+          child: ListView.separated(
+              itemBuilder: (context, index) {
+                return Center(
                           child: InkWell(
                               onTap: () {
                                 Navigator.pushNamed(
                                     context, HadethDetails.routeName,
                                     arguments: hadethList[index]);
                               },
-                              child: Text(hadethList[index].title)));
+                              child: Text(hadethList[index].title,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .titleMedium!
+                                      .copyWith(fontSize: 20))));
                     },
-                    separatorBuilder: (context, index) {
-                      return Divider(
-                        color: Theme.of(context).primaryColor,
+              separatorBuilder: (context, index) {
+                return Divider(
+                        color: provider.isDarkMode()
+                            ? MyTheme.yellowColor
+                            : Theme.of(context).primaryColor,
                         thickness: 2,
                       );
-                    },
-                    itemCount: hadethList.length),
-              )
+              },
+              itemCount: hadethList.length),
+        )
       ],
     );
   }

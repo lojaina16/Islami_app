@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:islami/home/radio/iconBtn.dart';
 
 class RadioTab extends StatelessWidget {
   const RadioTab({super.key});
@@ -9,9 +11,25 @@ class RadioTab extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         Center(child: Image.asset("assets/images/radio_image.png")),
-        Text("اذاعة القرأن الكريم",
+        Text(AppLocalizations.of(context)!.quran_audio,
             style: Theme.of(context).textTheme.titleMedium),
-        Center(child: Image.asset("assets/images/Group 5.png")),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(20),
+              child: IconBtn(icon: Icons.skip_previous_sharp),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(20),
+              child: IconBtn(icon: Icons.play_arrow),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(20),
+              child: IconBtn(icon: Icons.skip_next_sharp),
+            )
+          ],
+        )
       ],
     );
   }

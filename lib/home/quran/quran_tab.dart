@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:islami/home/quran/sura_details_screen.dart';
+import 'package:islami/providers/app_config_provider.dart';
+import 'package:provider/provider.dart';
+
+import '../../my_theme.dart';
 
 class QuranTab extends StatelessWidget {
   QuranTab({super.key});
@@ -123,19 +128,24 @@ class QuranTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var provider = Provider.of<AppConfigProvider>(context);
     return Column(
       children: [
         Center(child: Image.asset("assets/images/quran_image.png")),
         Divider(
-          color: Theme.of(context).primaryColor,
+          color: provider.isDarkMode()
+              ? MyTheme.yellowColor
+              : Theme.of(context).primaryColor,
           thickness: 3,
         ),
         Text(
-          "Sura Name",
+          AppLocalizations.of(context)!.sura_name,
           style: Theme.of(context).textTheme.titleMedium,
         ),
         Divider(
-          color: Theme.of(context).primaryColor,
+          color: provider.isDarkMode()
+              ? MyTheme.yellowColor
+              : Theme.of(context).primaryColor,
           thickness: 3,
         ),
         Expanded(
@@ -143,21 +153,26 @@ class QuranTab extends StatelessWidget {
             itemBuilder: (context, index) {
               return Center(
                   child: InkWell(
-                onTap: () {
-                  Navigator.pushNamed(context, SuraDetails.routeName,
-                      arguments: SuraDetailsArgs(
-                          suraName: suraName[index], index: index));
-                },
-                child: Text(
-                  suraName[index],
-                  style: Theme.of(context).textTheme.titleSmall,
+                    onTap: () {
+                      Navigator.pushNamed(context, SuraDetails.routeName,
+                          arguments: SuraDetailsArgs(
+                              suraName: suraName[index], index: index));
+                    },
+                    child: Text(
+                      suraName[index],
+                  style: Theme.of(context)
+                      .textTheme
+                      .titleMedium!
+                      .copyWith(fontSize: 20),
                 ),
-              ));
+                  ));
             },
             itemCount: suraName.length,
             separatorBuilder: (BuildContext context, int index) {
               return Divider(
-                color: Theme.of(context).primaryColor,
+                color: provider.isDarkMode()
+                    ? MyTheme.yellowColor
+                    : Theme.of(context).primaryColor,
                 thickness: 2,
               );
             },

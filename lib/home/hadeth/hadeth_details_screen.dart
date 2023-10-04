@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:islami/home/hadeth/hadeth_tab.dart';
 import 'package:islami/my_theme.dart';
+import 'package:islami/providers/app_config_provider.dart';
+import 'package:provider/provider.dart';
 
 class HadethDetails extends StatefulWidget {
   HadethDetails({super.key});
@@ -14,14 +16,22 @@ class HadethDetails extends StatefulWidget {
 class _HadethDetailsState extends State<HadethDetails> {
   @override
   Widget build(BuildContext context) {
+    var provider = Provider.of<AppConfigProvider>(context);
     var args = ModalRoute.of(context)?.settings.arguments as Hadeth;
     return Stack(children: [
-      Image.asset(
-        "assets/images/background.png",
-        width: double.infinity,
-        height: double.infinity,
-        fit: BoxFit.fill,
-      ),
+      provider.isDarkMode()
+          ? Image.asset(
+              "assets/images/bg.png",
+              width: double.infinity,
+              height: double.infinity,
+              fit: BoxFit.fill,
+            )
+          : Image.asset(
+              "assets/images/background.png",
+              width: double.infinity,
+              height: double.infinity,
+              fit: BoxFit.fill,
+            ),
       Scaffold(
         appBar: AppBar(
           title: Text(
@@ -36,7 +46,9 @@ class _HadethDetailsState extends State<HadethDetails> {
             horizontal: MediaQuery.of(context).size.width * 0.04,
           ),
           decoration: BoxDecoration(
-            color: MyTheme.whiteColor,
+            color: provider.isDarkMode()
+                ? MyTheme.primaryDark
+                : MyTheme.whiteColor,
             borderRadius: BorderRadius.circular(24),
           ),
           child: ListView.builder(
